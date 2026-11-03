@@ -21,13 +21,11 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: 3. Set up Android SDK & Accept Licenses
-        uses: android-actions/setup-android@v3
-
-      - name: 4. Install Android SDK Platform 34 & Build-Tools
+      - name: 3. Configure Android SDK & Accept Licenses
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
       - name: 5. Set up Node.js 20
         uses: actions/setup-node@v4
