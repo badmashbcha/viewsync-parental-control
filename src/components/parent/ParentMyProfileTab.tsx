@@ -125,14 +125,14 @@ export const ParentMyProfileTab: React.FC<ParentMyProfileTabProps> = ({
                 <p className="text-white/80 text-[11px]">Install on phone home screen &amp; app drawer</p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={handleInstallApp}
+            <a
+              href="/downloads/ViewSync-v1.0.apk"
+              download="ViewSync-v1.0.apk"
               className="px-3.5 py-2 rounded-xl bg-white text-blue-600 hover:bg-white/90 font-extrabold text-xs shadow-sm transition active:scale-95 flex items-center gap-1.5 shrink-0"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>{isAppInstalled ? 'Installed ✓' : 'Install APK'}</span>
-            </button>
+              <span>Download APK (37MB)</span>
+            </a>
           </div>
 
           {/* Settings & controls */}
