@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewSync - Live Screen, Camera & Parental Assist</title>
+    <meta name="description" content="ViewSync: Real-time consensual screen sharing, live camera feed, ambient audio monitor, GPS location tracking, and parental controls." />
+    <meta property="og:title" content="ViewSync - Live Screen, Camera & Parental Assist" />
+    <meta property="og:description" content="ViewSync: Real-time consensual screen sharing, live camera feed, ambient audio monitor, GPS location tracking, and parental controls." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/aistudio/file_00000000da108211b0e62540220f79da_6786b4ce.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/assets/aistudio/file_00000000da108211b0e62540220f79da_6786b4ce.png" />
+    <link rel="apple-touch-icon" href="/assets/aistudio/file_00000000da108211b0e62540220f79da_6786b4ce.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#2e62f5" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ViewSync" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration error:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

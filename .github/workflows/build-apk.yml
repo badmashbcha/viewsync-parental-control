@@ -1,0 +1,66 @@
+name: Build ViewSync Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Compile Android Debug APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: 2. Set up Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: 3. Set up Android SDK & Accept Licenses
+        uses: android-actions/setup-android@v3
+
+      - name: 4. Install Android SDK Platform 34 & Build-Tools
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+
+      - name: 5. Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 6. Install Node Dependencies
+        run: npm ci || npm install
+
+      - name: 7. Build Web Distribution & Sync to Android
+        run: |
+          npm run build
+          npx cap sync android
+
+      - name: 8. Grant Execute Permission to Gradlew
+        run: chmod +x android/gradlew
+
+      - name: 9. Compile Android Debug APK via Gradle
+        run: |
+          cd android
+          ./gradlew assembleDebug --stacktrace
+
+      - name: 10. Copy and Rename APK for Distribution
+        run: |
+          mkdir -p build-output
+          cp android/app/build/outputs/apk/debug/app-debug.apk build-output/ViewSync-v1.0.apk
+          echo "APK successfully compiled at build-output/ViewSync-v1.0.apk"
+          ls -lh build-output/ViewSync-v1.0.apk
+
+      - name: 11. Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ViewSync-Android-APK
+          path: build-output/ViewSync-v1.0.apk
+          retention-days: 30

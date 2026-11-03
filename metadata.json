@@ -1,0 +1,11 @@
+{
+  "name": "LiveCast Guard & Screen Assist",
+  "description": "Real-time screen sharing, live camera feed, remote supervision controls, interactive annotations, and session recording.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "display-capture",
+    "geolocation"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

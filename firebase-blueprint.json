@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered parent or guardian user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "role": { "type": "string", "enum": ["parent", "child"], "description": "Assigned user role" },
+        "createdAt": { "type": "number", "description": "Creation timestamp" },
+        "updatedAt": { "type": "number", "description": "Last update timestamp" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "DeviceSession": {
+      "title": "DeviceSession",
+      "description": "Supervised device pairing and telemetry record",
+      "type": "object",
+      "properties": {
+        "deviceId": { "type": "string", "description": "Device unique identifier" },
+        "deviceName": { "type": "string", "description": "Device hardware name" },
+        "guardianEmail": { "type": "string", "description": "Email of the supervising guardian" },
+        "guardianUid": { "type": "string", "description": "UID of the guardian" },
+        "bindingCode": { "type": "string", "description": "9-digit pairing code" },
+        "status": { "type": "string", "description": "Connection status" },
+        "realBatteryLevel": { "type": "number", "description": "Live battery percentage" },
+        "isCharging": { "type": "boolean", "description": "Device charging state" },
+        "screenTimeSeconds": { "type": "number", "description": "Active in-app screen time" },
+        "isInstantBlocked": { "type": "boolean", "description": "App instant lock status" },
+        "downtimeActive": { "type": "boolean", "description": "Bedtime downtime state" },
+        "lastSeen": { "type": "number", "description": "Last heartbeat timestamp" },
+        "createdAt": { "type": "number", "description": "Creation timestamp" }
+      },
+      "required": ["deviceId", "deviceName", "guardianEmail", "bindingCode"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Daily screen time and app usage record for device",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string", "description": "Log identifier" },
+        "deviceId": { "type": "string", "description": "Target device identifier" },
+        "date": { "type": "string", "description": "Log date in YYYY-MM-DD format" },
+        "screenTimeSeconds": { "type": "number", "description": "Total screen time for this day" },
+        "appsUsedSummary": { "type": "string", "description": "Summary of apps used" },
+        "lastUpdated": { "type": "number", "description": "Last updated timestamp" }
+      },
+      "required": ["logId", "deviceId", "date", "screenTimeSeconds"]
+    },
+    "LocationRecord": {
+      "title": "LocationRecord",
+      "description": "GPS tracking coordinates snapshot for device",
+      "type": "object",
+      "properties": {
+        "locationId": { "type": "string", "description": "Location record ID" },
+        "deviceId": { "type": "string", "description": "Target device ID" },
+        "latitude": { "type": "number", "description": "GPS latitude" },
+        "longitude": { "type": "number", "description": "GPS longitude" },
+        "address": { "type": "string", "description": "Reverse-geocoded street address" },
+        "timestamp": { "type": "number", "description": "Timestamp of coordinates" }
+      },
+      "required": ["locationId", "deviceId", "latitude", "longitude", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user accounts"
+    },
+    "/devices/{deviceId}": {
+      "schema": "DeviceSession",
+      "description": "Collection of registered child devices"
+    },
+    "/devices/{deviceId}/activityLogs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "Daily historical activity records for device"
+    },
+    "/devices/{deviceId}/locations/{locationId}": {
+      "schema": "LocationRecord",
+      "description": "GPS location history snapshots for device"
+    }
+  }
+}
